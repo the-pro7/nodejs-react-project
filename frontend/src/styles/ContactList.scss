@@ -1,0 +1,10 @@
+@import "./config";
+
+.contact-list {
+	padding: 1em;
+	border-radius: 0.5rem;
+    height: 65dvh;
+	box-shadow: 3px 4px 15px rgb(0 0 0 / 0.5);
+	width: 60%;
+    // overflow-y: scroll;
+}

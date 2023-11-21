@@ -1,0 +1,46 @@
+// Partials
+@import "./config";
+
+
+.contact {
+    width: 40%;
+    height: fit-content;
+    padding: 1.5em 3em;
+    display: flex;
+    flex-direction: column;
+    border-radius: .5rem;
+    box-shadow: 3px 4px 15px rgb(0 0 0 / .5);
+
+    &__header {
+        margin-bottom: .5em;
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 1em;
+
+        .form-group {
+            display: inherit;
+            flex-direction: inherit;
+            gap: .5em;
+
+            // Input and label styles
+            input {
+                border: 0;
+                outline: thin solid #818181;
+                padding: .7em .5em;
+            }
+        }
+
+        // Submit button
+        button {
+            padding: .7em .5em;
+            font-weight: fontWeight(bold);
+            background-color: $default-color;
+            border: 0;
+            cursor: pointer;
+            color: $white;
+        }
+    }
+}
