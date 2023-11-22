@@ -3,9 +3,6 @@ import "../styles/ContactForm.scss";
 
 const ContactForm = () => {
 	const [contact, setContact] = useState({});
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [phone, setPhone] = useState("");
 	const [loading, setLoading] = useState(false);
 
 	const formRef = useRef();
@@ -13,16 +10,8 @@ const ContactForm = () => {
 	async function handleSubmit(event) {
 		event.preventDefault();
 
-		setContact((prevContact) => {
-			const newContact = {
-				...prevContact,
-				name,
-				email,
-				phone,
-			};
-
-			return newContact;
-		});
+		// setContact({ ...contact, name, email, phone });
+		console.log(contact);
 
 		try {
 			setLoading(true);
@@ -41,8 +30,13 @@ const ContactForm = () => {
 			);
 			let data = await response.json();
 
+			console.log(response.status);
 			if (response.ok) {
-				formRef.current.reset();
+				// formRef.current.reset();
+				console.log(formRef.current);
+				const children = [...formRef.current.querySelectorAll("input")];
+
+				console.log(children);
 				console.log("The server accepted the request", data);
 			}
 		} catch (error) {
@@ -71,9 +65,9 @@ const ContactForm = () => {
 						placeholder="Enter contact name..."
 						name="contact-name"
 						onChange={(e) => {
-							setName(e.target.value);
+							setContact({ ...contact, name: e.target.value });
 						}}
-						value={name}
+						value={contact.name}
 					/>
 				</div>
 				<div className="form-group">
@@ -83,9 +77,9 @@ const ContactForm = () => {
 						placeholder="Enter contact email..."
 						name="contact-email"
 						onChange={(e) => {
-							setEmail(e.target.value);
+							setContact({ ...contact, email: e.target.value });
 						}}
-						value={email}
+						value={contact.email}
 					/>
 				</div>
 				<div className="form-group">
@@ -95,9 +89,9 @@ const ContactForm = () => {
 						placeholder="Enter contact phone..."
 						name="contact-phone"
 						onChange={(e) => {
-							setPhone(e.target.value);
+							setContact({ ...contact, phone: e.target.value });
 						}}
-						value={phone}
+						value={contact.phone}
 					/>
 				</div>
 				<button type="submit" disabled={loading}>

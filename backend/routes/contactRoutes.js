@@ -5,11 +5,16 @@ const asyncHandler = require("express-async-handler")
 // @desc GET api/contacts
 // @route GET
 // @access public
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
 	res.setHeader("Access-Control-Allow-Origin", "*");
-	console.log(req.originalUrl);
-	console.log(req.body);
-	res.status(200).json({ message: "Hello World" });
+	const contact = await Contact.find({})
+
+	if (!contact) {
+		throw new Error("Failed to get contacts!!!")
+	}
+	// console.log(req.originalUrl);
+	// console.log(req.body);
+	res.status(200).json(contact);
 });
 
 // @desc Create new contact

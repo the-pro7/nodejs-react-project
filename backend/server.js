@@ -25,7 +25,7 @@ mongoose.connect(process.env.CONNECTION_STRING).then(() => {
         console.log(`Server running on ${port}`)
     })
 }).catch(error => console.log(error.stack)).finally(() => {
-    console.log("Something happened!!")
+    console.log("Something happened!!!")
 })
 
 const connection = mongoose.connection

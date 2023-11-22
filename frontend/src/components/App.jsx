@@ -11,18 +11,18 @@ function App() {
 
 	useEffect(() => {
 		async function getContacts(BASE_URL) {
-			try {
-				const options = {
-					method: "GET",
-					headers: {
-						"Content-Type": "application/json",
-					},
-				};
+			const options = {
+				method: "GET",
+				headers: {
+					"Content-Type": "application/json",
+				},
+			};
 
+			try {
 				let response = await fetch(BASE_URL, options);
 				let data = await response.json();
 				setContacts(data);
-				console.log(contacts);
+				console.log(` Data received: ${contacts}`);
 			} catch (error) {
 				setError(error);
 				console.log(error);
