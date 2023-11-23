@@ -26,6 +26,17 @@ body {
         display: flex;
         gap: 2em;
         height: 100%;
+        position: relative;
+
+        .show-status {
+            background-color: #fff;
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            padding: .6em;
+            border-bottom-right-radius: .5rem;
+            outline: thin solid $default-color;
+        }
     }
 
     .title {

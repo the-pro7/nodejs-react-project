@@ -1,16 +1,18 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import "../styles/ContactForm.scss";
 
 const ContactForm = () => {
 	const [contact, setContact] = useState({});
 	const [loading, setLoading] = useState(false);
+	const nameRef = useRef();
+	const emailRef = useRef();
+	const phoneRef = useRef();
 
 	const formRef = useRef();
 
 	async function handleSubmit(event) {
 		event.preventDefault();
 
-		// setContact({ ...contact, name, email, phone });
 		console.log(contact);
 
 		try {
@@ -32,11 +34,7 @@ const ContactForm = () => {
 
 			console.log(response.status);
 			if (response.ok) {
-				// formRef.current.reset();
-				console.log(formRef.current);
-				const children = [...formRef.current.querySelectorAll("input")];
-
-				console.log(children);
+				console.log(nameRef.current, emailRef.current, phoneRef.current);
 				console.log("The server accepted the request", data);
 			}
 		} catch (error) {
@@ -64,6 +62,7 @@ const ContactForm = () => {
 						type="text"
 						placeholder="Enter contact name..."
 						name="contact-name"
+						ref={nameRef}
 						onChange={(e) => {
 							setContact({ ...contact, name: e.target.value });
 						}}
@@ -76,6 +75,7 @@ const ContactForm = () => {
 						type="text"
 						placeholder="Enter contact email..."
 						name="contact-email"
+						ref={emailRef}
 						onChange={(e) => {
 							setContact({ ...contact, email: e.target.value });
 						}}
@@ -88,6 +88,7 @@ const ContactForm = () => {
 						type="text"
 						placeholder="Enter contact phone..."
 						name="contact-phone"
+						ref={phoneRef}
 						onChange={(e) => {
 							setContact({ ...contact, phone: e.target.value });
 						}}
