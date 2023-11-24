@@ -7,7 +7,10 @@ import ContactEditProvider from "../context/ContactEditProvider";
 function App() {
 	const [error, setError] = useState("");
 	const [success, setSuccess] = useState("");
+	// All contacts
 	const [contacts, setContacts] = useState([]);
+	// Single contact
+	const [contact, setContact] = useState({});
 	const [loading, setLoading] = useState(false);
 
 	const BASE_URL = "http://localhost:5003/api/contacts/";
@@ -47,9 +50,12 @@ function App() {
 				<h1 className="title">Pro FullStack Contact Manager</h1>
 				<div className="wrapper__content">
 					{error && <p>{error}</p>}
-					<ContactForm />
+					<ContactForm contact={contact} setContact={setContact}/>
 					<ContactList
 						contacts={contacts}
+						// Single contact
+						contact={contact}
+						setContact={setContact}
 						loading={loading}
 						setError={setError}
 						setSuccess={setSuccess}

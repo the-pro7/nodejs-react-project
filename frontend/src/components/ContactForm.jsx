@@ -3,8 +3,8 @@ import "../styles/ContactForm.scss";
 import { useEdit, useUpdateEdit } from "../context/ContactEditProvider";
 
 
-const ContactForm = () => {
-	const [contact, setContact] = useState({});
+const ContactForm = ({contact, setContact}) => {
+	// const [contact, setContact] = useState({});
 	const [loading, setLoading] = useState(false);
 	const nameRef = useRef();
 	const emailRef = useRef();

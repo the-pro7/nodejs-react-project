@@ -2,14 +2,16 @@ import React from "react";
 import "../styles/ContactList.scss";
 import PropTypes from "prop-types";
 import { useEdit, useUpdateEdit } from "../context/ContactEditProvider";
-// import { faTrashCan } from "@fortawesome/free-regular-svg-icons";
 
 const ContactList = ({
 	contacts,
-	loading,
+	setContacts,
+	// Single contact
+	contact,
+	setContact,
+	// Error && success
 	setError,
 	setSuccess,
-	setContacts,
 }) => {
 	const edit = useEdit();
 	const setEdit = useUpdateEdit();
@@ -41,30 +43,46 @@ const ContactList = ({
 		}
 	}
 	async function handleEdit(contactID) {
-		const editContact = contacts.find((contact) => contact._id === contactID);
+		const contactToUpdate = contacts.find(
+			(contact) => contact._id === contactID
+		);
+		setContact({ ...contact, ...contactToUpdate });
+		console.log(contact);
 
-		setEdit(true);
-		console.log(edit, editContact, contacts);
+		try {
+			const updateOptions = {
+				method: "PUT",
+				headers: {
+					Accept: "application/json",
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(contact),
+			};
 
-		// try {
-		// 	const updateOptions = {
-		// 		method: "PUT",
-		// 		headers: {
-		// 			Accept: "application/json",
-		// 			"Content-Type": "application/json"
-		// 		}
-		// 		// body
-		// 	}
-		// } catch (error) {
-		// 	setError("Failed to update your contact's information")
-		// }
+			let response = await fetch(`${BASE_URL}${contactID}`, updateOptions);
+
+			if (response.ok) {
+				setContacts((prevContact) => {
+					prevContact?.map((prevContact) => {
+						prevContact._id === contactID
+							? { ...prevContact, ...contact }
+							: prevContact;
+					});
+				});
+				console.log("Successfully updated the resource! Congrats!!!");
+			} else {
+				throw new Error("Failed to update your contact!");
+			}
+		} catch (error) {
+			setError("Failed to update your contact's information");
+		}
 	}
 	return (
 		<section className="contact-list">
 			<h1>Contacts Added</h1>
 
 			<ul className="contact-list__list">
-				{contacts.map((contact) => (
+				{contacts?.map((contact) => (
 					<li key={contact._id} className="contact">
 						<p>
 							Name: <strong>{contact.name}</strong>
@@ -82,7 +100,7 @@ const ContactList = ({
 					</li>
 				))}
 			</ul>
-			{!contacts.length ? (
+			{!contacts?.length ? (
 				<p className="show-status">No contacts added</p>
 			) : (
 				<p className="show-status">Contacts added {contacts.length}</p>
