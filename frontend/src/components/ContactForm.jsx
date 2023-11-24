@@ -1,5 +1,7 @@
 import React, { useState, useRef } from "react";
 import "../styles/ContactForm.scss";
+import { useEdit, useUpdateEdit } from "../context/ContactEditProvider";
+
 
 const ContactForm = () => {
 	const [contact, setContact] = useState({});
@@ -10,6 +12,10 @@ const ContactForm = () => {
 
 	const formRef = useRef();
 
+	// Edit 
+	const edit = useEdit()
+	const setEdit = useUpdateEdit()
+
 	async function handleSubmit(event) {
 		event.preventDefault();
 
@@ -18,7 +24,7 @@ const ContactForm = () => {
 		try {
 			setLoading(true);
 
-			const options = {
+			const postOptions = {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -28,20 +34,19 @@ const ContactForm = () => {
 
 			let response = await fetch(
 				"http://localhost:5003/api/contacts/",
-				options
+				postOptions
 			);
 			let data = await response.json();
 
 			console.log(response.status);
 			if (response.ok) {
-				console.log(nameRef.current, emailRef.current, phoneRef.current);
+				setContact({ ...contact, name: "", email: "", phone: "" });
 				console.log("The server accepted the request", data);
 			}
 		} catch (error) {
 			console.error(error);
 		} finally {
 			setLoading(false);
-			formRef.current.reset();
 		}
 
 		console.log(contact);

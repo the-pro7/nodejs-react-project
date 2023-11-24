@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import ContactForm from "./ContactForm";
 import ContactList from "./ContactList";
 import "../styles/App.scss";
+import ContactEditProvider from "../context/ContactEditProvider";
 
 function App() {
 	const [error, setError] = useState("");
@@ -28,6 +29,7 @@ function App() {
 				setContacts(data);
 			} catch (error) {
 				setError(error);
+				setLoading(false);
 				console.log(error);
 			} finally {
 				setLoading(false);
@@ -40,21 +42,22 @@ function App() {
 	}, [contacts]);
 
 	return (
-		<main className="wrapper">
-			{/* {console.log(contacts)} */}
-			<h1 className="title">Pro FullStack Contact Manager</h1>
-			<div className="wrapper__content">
-				{error && <p>{error}</p>}
-				<ContactForm />
-				<ContactList
-					contacts={contacts}
-					loading={loading}
-					setError={setError}
-					setSuccess={setSuccess}
-					setContacts={setContacts}
-				/>
-			</div>
-		</main>
+		<ContactEditProvider>
+			<main className="wrapper">
+				<h1 className="title">Pro FullStack Contact Manager</h1>
+				<div className="wrapper__content">
+					{error && <p>{error}</p>}
+					<ContactForm />
+					<ContactList
+						contacts={contacts}
+						loading={loading}
+						setError={setError}
+						setSuccess={setSuccess}
+						setContacts={setContacts}
+					/>
+				</div>
+			</main>
+		</ContactEditProvider>
 	);
 }
 
